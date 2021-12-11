@@ -2,12 +2,13 @@ package config
 
 import (
 	"bufio"
-	"github.com/hdt3213/godis/lib/logger"
 	"io"
 	"os"
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/hdt3213/godis/lib/logger"
 )
 
 // ServerProperties defines global config properties
@@ -44,7 +45,8 @@ func parse(src io.Reader) *ServerProperties {
 	scanner := bufio.NewScanner(src)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if len(line) > 0 && line[0] == '#' {
+		// 空行 和非空的注释行 跳过处理
+		if len(line) == 0 || (len(line) > 0 && line[0] == '#') {
 			continue
 		}
 		pivot := strings.IndexAny(line, " ")
